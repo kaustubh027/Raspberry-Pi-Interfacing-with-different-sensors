@@ -1,0 +1,54 @@
+# Write program for control traffic lamps as per police Officer exist or not
+
+import RPi.GPIO as g
+
+import time
+
+g.setmode(g.BOARD)
+
+green=40
+
+red=38
+
+yellow=36
+
+traffic_police=33   # IR Sensor
+
+g.setup(green,g.OUT)
+
+g.setup(red,g.OUT)
+
+g.setup(yellow,g.OUT)
+
+g.setup(traffic_police,g.IN)  # IR Sensor
+
+while True:
+        person=g.input(traffic_police)
+        if person==0:
+                print("traffic_police is not on site")
+                g.output(green,1)
+
+                print("green led on")
+
+                time.sleep(10)
+
+                g.output(green,0)
+
+                g.output(red,1)
+
+                print("red led on")
+
+                time.sleep(7)
+
+                g.output(red,0)
+
+                g.output(yellow,1)
+
+                print("yellow led on")
+
+                time.sleep(3)
+
+                g.output(yellow,0)
+
+        else:
+                print("Police Officer is on site and he is controlling by manually")        
