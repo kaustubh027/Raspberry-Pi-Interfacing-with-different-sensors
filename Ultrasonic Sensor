@@ -1,0 +1,41 @@
+
+# Unltrasonic sensor with buzzer interfacing
+
+import RPi.GPIO as g
+import time
+g.setmode(g.BOARD)
+g.setwarnings(False)
+
+echo=23         # output
+trig=24         # input
+buzzer = 40     # buzzer
+
+g.setup(echo,g.IN) # input for Echo
+g.setup(trig,g.OUT) # output for Trigger
+g.setup(buzzer,g.OUT) # output for buzzer
+
+while True:
+        g.output(trig,1) # trig High
+        time.sleep(0.00001) # 10 uSec delay, its is compulsary
+        g.output(trig,0) # trig low
+        time.sleep(0.00001)
+
+        while (g.input(echo) == 0):
+                start = time.time()  # start is variable, time function calculate the  time by itself
+
+        while(g.input(echo)== 1):
+                stop = time.time() # stop is a variable
+
+        total = (stop - start)/2  # total time
+        dist = total * 34300  # 34300 is a speed of sound
+        #       print(dist)
+        time.sleep(0.5) 
+
+        if dist <= 5:           #  if distance is less than 5 cm the buzzer will on
+                g.output(buzzer,1)
+                print("Distance is less than 5 cm")
+                print("So buzzer is on")
+                print("The object is on the distnace", dist)
+
+        time.sleep(0.5)
+        g.output(buzzer,0) # buzzer will off
